@@ -2,6 +2,8 @@ version: '3'
 services:
   my-app:
     image: docker.io/s260895/nodeapp
+    environment:
+     - DEPLOYMENT_MODE=docker-compose
     ports:
      - 3000:3000
   mongodb:

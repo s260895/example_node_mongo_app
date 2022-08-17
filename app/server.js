@@ -35,10 +35,25 @@ let mongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 // "user-account" in demo with docker. "my-db" in demo with docker-compose
 let databaseName = "my-db";
 
+// fetch environment variable DEPLOYMENT_MODE
+let mode = process.env.DEPLOYMENT_MODE
+
+if (mode == 'local'){
+  mongourl = mongoUrlLocal
+}
+
+if (mode == 'docker'){
+  mongourl = mongoUrlDocker
+}
+
+if (mode == 'docker-compose') {
+  mongourl = mongoUrlDockerCompose
+}
+
 app.post('/update-profile', function (req, res) {
   let userObj = req.body;
 
-  MongoClient.connect(mongoUrlLocal, mongoClientOptions, function (err, client) {
+  MongoClient.connect(mongourl, mongoClientOptions, function (err, client) {
     if (err) throw err;
 
     let db = client.db(databaseName);
@@ -60,7 +75,7 @@ app.post('/update-profile', function (req, res) {
 app.get('/get-profile', function (req, res) {
   let response = {};
   // Connect to the db
-  MongoClient.connect(mongoUrlLocal, mongoClientOptions, function (err, client) {
+  MongoClient.connect(mongourl, mongoClientOptions, function (err, client) {
     if (err) throw err;
 
     let db = client.db(databaseName);
