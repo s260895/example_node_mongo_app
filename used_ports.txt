@@ -1,0 +1,6 @@
+exposed host ports 
+8080:jenkins
+50000:jenkins-cluster
+3000:nodejs-app
+27017:mongo
+8081:mongo-express
